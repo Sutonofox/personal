@@ -1,227 +1,272 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalkulator Sederhana</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f3f4f6;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacarku Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e5ddd5;
+        }
 
-    .calculator {
-      background-color: #ffffff;
-      border-radius: 15px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      width: 260px;
-      transition: background-color 0.3s;
-    }
+        .chat-container {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
 
-    .display {
-      width: 100%;
-      height: 50px;
-      text-align: right;
-      background-color: #f8f9fa;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 1.8em;
-      padding: 10px;
-      box-sizing: border-box;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+        .chat-header {
+            background-color: #075e54;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 15px;
+        }
 
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
+        .profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-image: url('https://via.placeholder.com/40');
+            background-size: cover;
+        }
 
-    .button {
-      width: 55px;
-      height: 55px;
-      background-color: #f1f1f1;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 1.8em;
-      margin: 5px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .button:hover {
-      background-color: #e0e0e0;
-    }
+        .message {
+            padding: 6px 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            display: inline-block;
+            max-width: 75%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            position: relative;
+        }
 
-    .button.operator {
-      background-color: #ff9f00;
-      color: white;
-    }
+        .message.me {
+            background-color: #dcf8c6;
+            margin-left: auto;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
-    .button.operator:hover {
-      background-color: #e68900;
-    }
+        .message.other {
+            background-color: #f1f1f1;
+            margin-right: auto;
+            margin-left: 10px;
+        }
 
-    .button.equal {
-      background-color: #4CAF50;
-      color: white;
-      flex-grow: 2;
-    }
+        .checkmark {
+            font-size: 10px; /* Ukuran ceklis lebih kecil */
+            margin-left: 10px;
+        }
 
-    .button.equal:hover {
-      background-color: #45a049;
-    }
+        .checkmark.unanswered {
+            color: gray;
+        }
 
-    .button.delete, .button.clear {
-      background-color: #607d8b;
-      color: white;
-      font-size: 1.2em;
-      width: 55px; /* Ukuran kembali ke semula */
-      height: 55px; /* Ukuran kembali ke semula */
-    }
+        .checkmark.answered {
+            color: blue;
+        }
 
-    .button.delete:hover, .button.clear:hover {
-      background-color: #455a64;
-    }
+        .message-time {
+            font-size: 10px;
+            color: gray;
+            margin-top: -5px; /* Mengurangi jarak waktu dengan teks menjadi sangat dekat */
+            display: flex;
+            align-items: center;
+        }
 
-    .button-zero {
-      flex-grow: 2;
-    }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            background-color: #fff;
+            padding: 10px;
+        }
 
-    .color-picker {
-      display: flex;
-      justify-content: space-evenly;
-      margin-top: 10px;
-    }
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+        }
 
-    .color-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
+        .chat-input button {
+            background-color: #075e54;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 10px;
+        }
 
-    .color-btn:hover {
-      transform: scale(1.2);
-    }
-
-  </style>
+        .chat-input button:hover {
+            background-color: #128c7e;
+        }
+    </style>
 </head>
 <body>
 
-<div class="calculator" id="calculator">
-  <input id="display" class="display" type="text" readonly />
-  <div class="button-row">
-    <button class="button clear" onclick="clearDisplay()">C</button>
-    <button class="button delete" onclick="deleteLast()">DEL</button>
-    <button class="button operator" onclick="appendToDisplay('+')">+</button>
-  </div>
-  <div class="button-row">
-    <button class="button" onclick="appendToDisplay('1')">1</button>
-    <button class="button" onclick="appendToDisplay('2')">2</button>
-    <button class="button" onclick="appendToDisplay('3')">3</button>
-    <button class="button operator" onclick="appendToDisplay('-')">-</button>
-  </div>
-  <div class="button-row">
-    <button class="button" onclick="appendToDisplay('4')">4</button>
-    <button class="button" onclick="appendToDisplay('5')">5</button>
-    <button class="button" onclick="appendToDisplay('6')">6</button>
-    <button class="button operator" onclick="appendToDisplay('x')">x</button>
-  </div>
-  <div class="button-row">
-    <button class="button" onclick="appendToDisplay('7')">7</button>
-    <button class="button" onclick="appendToDisplay('8')">8</button>
-    <button class="button" onclick="appendToDisplay('9')">9</button>
-    <button class="button operator" onclick="appendToDisplay('/')">/</button>
-  </div>
-  <div class="button-row">
-    <button class="button button-zero" onclick="appendToDisplay('0')">0</button>
-    <button class="button" onclick="appendToDisplay('.')">.</button>
-    <button class="button equal" onclick="calculate()">=</button>
-  </div>
-  <div class="color-picker">
-    <button class="color-btn" style="background-color: pink;" onclick="changeCalculatorColor('pink')"></button>
-    <button class="color-btn" style="background-color: green;" onclick="changeCalculatorColor('green')"></button>
-    <button class="color-btn" style="background-color: blue;" onclick="changeCalculatorColor('blue')"></button>
-    <button class="color-btn" style="background-color: orange;" onclick="changeCalculatorColor('orange')"></button>
-    <button class="color-btn" style="background-color: black;" onclick="changeCalculatorColor('black')"></button>
-    <button class="color-btn" style="background-color: #B0B0B0;" onclick="changeCalculatorColor('cloudWhite')"></button> <!-- Putih Mendung -->
-  </div>
+<div class="chat-container">
+    <!-- Chat Header -->
+    <div class="chat-header">
+        <div class="profile-img"></div> <!-- Gambar profil -->
+        Pacarku
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="chat-messages" id="chatMessages">
+        <!-- Pesan akan ditampilkan di sini -->
+    </div>
+
+    <!-- Chat Input -->
+    <div class="chat-input">
+        <input type="text" id="messageInput" placeholder="Tulis pesan..." />
+        <button id="sendButton">Kirim</button>
+    </div>
 </div>
 
 <script>
-  function appendToDisplay(value) {
-    let display = document.getElementById("display");
-    const lastChar = display.value.charAt(display.value.length - 1);
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const chatMessages = document.getElementById('chatMessages');
 
-    // Jika tombol yang ditekan adalah operator
-    if (value === "+" || value === "-" || value === "x" || value === "/") {
-      // Jika karakter terakhir adalah operator dan yang ditekan operator yang sama
-      if (lastChar === value) {
-        return;
-      }
-      
-      // Jika karakter terakhir adalah operator, ganti dengan operator baru
-      if (lastChar === "+" || lastChar === "-" || lastChar === "x" || lastChar === "/") {
-        display.value = display.value.slice(0, -1); // Hapus operator terakhir
-      }
+    const replies = [
+        "Kamu idiot!",
+        "Dasar bodoh!",
+        "Jangan ganggu gue!",
+        "Pfft, bego!",
+        "Kamu ngapain sih?",
+        "Jangan banyak omong, tolol!"
+    ];
+
+    const unansweredMessages = [];
+
+    function addMessage(content, sender, messageId) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', sender);
+
+        const messageText = document.createElement('p');
+        messageText.innerHTML = processBoldText(content); // Memanggil fungsi untuk memproses teks
+
+        messageDiv.appendChild(messageText);
+
+        const messageTime = document.createElement('span');
+        messageTime.classList.add('message-time');
+        messageTime.textContent = getFormattedTime(); // Menambahkan waktu terkirim
+
+        const checkmark = document.createElement('span');
+        checkmark.classList.add('checkmark', 'unanswered');
+        checkmark.textContent = '✓';
+
+        // Menambahkan waktu dan ceklis ke dalam satu div
+        const timeContainer = document.createElement('div');
+        timeContainer.style.display = 'flex';
+        timeContainer.style.alignItems = 'center';
+
+        timeContainer.appendChild(messageTime);
+        timeContainer.appendChild(checkmark);
+
+        messageDiv.appendChild(timeContainer);
+
+        if (sender === 'me') {
+            unansweredMessages.push(messageId);
+        }
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-    display.value += value;
-  }
 
-  function clearDisplay() {
-    document.getElementById("display").value = '';
-  }
-
-  function deleteLast() {
-    let display = document.getElementById("display");
-    display.value = display.value.slice(0, -1);
-  }
-
-  function calculate() {
-    let display = document.getElementById("display");
-    let expression = display.value.replace(/x/g, '*'); // Ganti 'x' dengan '*' untuk operasi perkalian
-    try {
-      display.value = eval(expression);
-    } catch {
-      display.value = 'Yang bener aja goblok!'; // Pesan kesalahan
-      display.style.fontSize = '1em'; // Ukuran font lebih kecil untuk menyesuaikan teks
+    function processBoldText(text) {
+        return text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
     }
-  }
 
-  function changeCalculatorColor(color) {
-    let calculator = document.getElementById("calculator");
-    switch (color) {
-      case "pink":
-        calculator.style.backgroundColor = "#ff66b2";
-        break;
-      case "green":
-        calculator.style.backgroundColor = "#4CAF50";
-        break;
-      case "blue":
-        calculator.style.backgroundColor = "#2196F3";
-        break;
-      case "orange":
-        calculator.style.backgroundColor = "#FF5722";
-        break;
-      case "black":
-        calculator.style.backgroundColor = "#333333";
-        break;
-      case "cloudWhite":
-        calculator.style.backgroundColor = "#B0B0B0"; // Putih mendung
-        break;
+    function getFormattedTime() {
+        const now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        let period = hours >= 12 ? 'PM' : 'AM';
+
+        if (hours > 12) hours -= 12;
+        if (hours === 0) hours = 12;
+
+        if (minutes < 10) minutes = '0' + minutes;
+
+        return `${hours}:${minutes} ${period}`;
     }
-  }
+
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message !== "") {
+            const messageId = Date.now();
+
+            addMessage(message, 'me', messageId);
+            messageInput.value = "";
+
+            setRandomResponseTime(() => {
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                addMessage(randomReply, 'other', messageId);
+                markAsAnswered(messageId);
+            });
+        }
+    }
+
+    function setRandomResponseTime(callback) {
+        const randomValue = Math.random();
+        let delay = 1000;
+
+        if (randomValue < 0.7) {
+            delay = 1000; // 70% untuk 1 detik
+        } else if (randomValue < 0.9) {
+            delay = 5000; // 20% untuk 5 detik
+        } else {
+            delay = 10000; // 10% untuk 10 detik
+        }
+
+        setTimeout(callback, delay);
+    }
+
+    function markAsAnswered(messageId) {
+        const messages = document.querySelectorAll('.message.me');
+        messages.forEach(message => {
+            const checkmark = message.querySelector('.checkmark');
+            if (checkmark && unansweredMessages.includes(messageId)) {
+                checkmark.classList.remove('unanswered');
+                checkmark.classList.add('answered');
+                checkmark.textContent = '✓';
+            }
+        });
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
 </script>
 
 </body>
